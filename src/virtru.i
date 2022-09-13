@@ -11,6 +11,7 @@
 
 %{
 #include "tdf_constants.h"
+#include "tdf_storage_type.h"
 #include "oidc_credentials.h"
 #include "tdf_client_base.h"
 #include "tdf_client.h"
@@ -18,6 +19,7 @@
 %}
 
 %include "tdf_constants.h"
+%include "tdf_storage_type.h"
 %include "oidc_credentials.h"
 %include "tdf_client_base.h"
 %include "tdf_client.h"
