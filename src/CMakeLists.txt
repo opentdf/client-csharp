@@ -7,7 +7,7 @@ cmake_minimum_required (VERSION 3.8)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
 # Set the project name
-project(opentdf-csharp)
+project(tdf-csharp)
 
 set(CMAKE_CXX_STANDARD 17)
 
