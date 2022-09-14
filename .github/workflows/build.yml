@@ -37,6 +37,12 @@ jobs:
           cd ${{ github.workspace }}
           .\build-all.bat
 
+      - name: Save artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-output
+          path: *.zip
+
       - run: echo "🍏 This job's status is %job.status%."
 
   ci:
