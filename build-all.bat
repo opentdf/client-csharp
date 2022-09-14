@@ -1,4 +1,5 @@
 rmdir /s /q build
+rmdir /s /q tdf-lib-csharp
 mkdir build
 pushd build
 

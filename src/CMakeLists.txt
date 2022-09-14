@@ -42,17 +42,15 @@ include(UseSWIG)
 set_source_files_properties(${SWIG_SOURCE_FILE} PROPERTIES CPLUSPLUS ON)
 
 include_directories(
-    ${PROJECT_SOURCE_DIR}/../lib/include
+    ${CONAN_INCLUDE_DIRS}
 )
 
 link_directories(
-    #${CONAN_LIB_DIRS}
-    ${TDF_LIB_DIR}
+    ${CONAN_LIB_DIRS}
 )
 
 link_libraries(
-    #${CONAN_LIBS}
-    ${TDFLIB}
+    ${CONAN_LIBS}
 )
 
 set(TDF_CSHARP_TARGET_DIR ${PROJECT_SOURCE_DIR}/../build/csharp-bindings)
@@ -70,7 +68,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ${CSHARP_MODULE_SUFFIX})
 endif()
 
-set(TDF_CSHARP_NATIVE_LIB ${CMAKE_CURRENT_BINARY_DIR}/${VBUILDTYPEDIR}tdf-csharp${CSHARP_MODULE_SUFFIX})
+set(TDF_CSHARP_NATIVE_LIB ${PROJECT_SOURCE_DIR}/../build/lib/${VBUILDTYPEDIR}tdf-csharp${CSHARP_MODULE_SUFFIX})
 message(STATUS "TDF_CSHARP_NATIVE_LIB: ${TDF_CSHARP_NATIVE_LIB}")
 
 ############################################################
@@ -83,12 +81,13 @@ install(DIRECTORY DESTINATION ${TDF_CSHARP_INSTALL_LOCATION})
 
 set(TDF_CSHARP_EXAMPLES ${PROJECT_SOURCE_DIR}/../examples)
 
+# TODO for some reason the following 'install' commands aren't doing anything
 # Copy the native dynamic lib
 install(FILES ${TDF_CSHARP_NATIVE_LIB} DESTINATION ${TDF_CSHARP_INSTALL_LOCATION}/lib)
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
   # Also need matching interface .lib file to go with .dll file on windows
-  set(TDF_CSHARP_NATIVE_LIB_INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/${VBUILDTYPEDIR}tdf-csharp.lib)
+  set(TDF_CSHARP_NATIVE_LIB_INTERFACE ${PROJECT_SOURCE_DIR}/../build/lib/${VBUILDTYPEDIR}tdf-csharp.lib)
   message(STATUS "TDF_CSHARP_NATIVE_LIB_INTERFACE: ${TDF_CSHARP_NATIVE_LIB_INTERFACE}")
   install(FILES ${TDF_CSHARP_NATIVE_LIB_INTERFACE} DESTINATION ${TDF_CSHARP_INSTALL_LOCATION}/lib)
 endif()
