@@ -40,10 +40,10 @@ jobs:
 
       - name: Set variables
         run: |
-          VER=$(type VERSION)
-          echo "VERSION=$VER" >> $GITHUB_ENV
+          set /p VER=<VERSION
+          echo "VERSION=%VER%" >> $env:GITHUB_ENV
 
-      - run: echo "🔎 The version is %github.VERSION%."
+      - run: echo "The version is %github.VERSION%"
 
       - name: Save artifacts
         uses: actions/upload-artifact@v3
