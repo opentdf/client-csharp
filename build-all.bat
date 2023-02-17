@@ -17,6 +17,11 @@ conan build .. --build-folder .
 set builderrorlevel=%errorlevel%
 if %builderrorlevel% neq 0 goto fin
 
+REM create the nuget package?
+cmake --build . --target PACKAGE
+set builderrorlevel=%errorlevel%
+if %builderrorlevel% neq 0 goto fin
+
 REM for some reason the cmake install isn't working, so copy these to the install area now
 mkdir %PROJECT_DIR%\%TDF_CSHARP_OUTPUT%\include\
 copy /y %PROJECT_DIR%\%TDF_CMAKE_BUILD_DIR%\csharp-bindings\source\*.cs %PROJECT_DIR%\%TDF_CSHARP_OUTPUT%\include\
