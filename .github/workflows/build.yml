@@ -18,6 +18,8 @@ jobs:
       VBUILDRELEASE: Release
       VBUILDDEBUG: Debug
       VBUILDMODE: Release
+    outputs:
+      outver: ${{ steps.getversion.outputs.VERSION }}
     steps:
       - run: echo "🎉 The job was automatically triggered by a %github.event_name% event."
       - run: echo "🐧 This job is now running on a %runner.os% server hosted by GitHub!"
@@ -38,17 +40,17 @@ jobs:
           cd ${{ github.workspace }}
           .\build-all.bat
 
-      - name: Set variables
+      - id: getversion
         run: |
           set /p VER=<VERSION
-          echo "VERSION=%VER%" >> $env:GITHUB_ENV
+          echo "VERSION=%VER%" >> $env:GITHUB_OUTPUT
 
-      - run: echo "The version is %github.VERSION%"
+      - run: echo "The version is ${{ needs.run-job-windows.outputs.VERSION }}"
 
       - name: Save artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: build-output.${{ github.VERSION }}.zip
+          name: build-output.${{ needs.run-job-windows.outputs.VERSION }}.zip
           path: |
             *.zip
             *.nupkg
