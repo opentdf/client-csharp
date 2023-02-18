@@ -44,8 +44,9 @@ jobs:
         run: |
           set /p VER=<VERSION
           echo "VERSION=%VER%" >> $env:GITHUB_OUTPUT
+          echo "VERSION=%VER%" 
 
-      - run: echo "The version is ${{ needs.run-job-windows.outputs.VERSION }}"
+      - run: echo "The version is ${{ run-job-windows.outputs.VERSION }}"
 
       - name: Save artifacts
         uses: actions/upload-artifact@v3
