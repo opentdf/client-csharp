@@ -13,7 +13,7 @@ env:
 jobs:
 
   run-build-windows:
-    # pin runner version
+    # pin runner version to 2019
     runs-on: windows-2019
     env:
       VBUILDRELEASE: Release
