@@ -38,13 +38,18 @@ jobs:
       - name: Get Version
         run: |
           chcp 65001 #set code page to utf-8
-          $VER = Get-Content .\VERSION
-          echo "VERSION=$VER" >> $env:GITHUB_ENV
+          $V_VER = Get-Content .\VERSION
+          echo "V_VERSION=$V_VER" >> $env:GITHUB_ENV
+
+      - name: Get Timestamp
+        run : |
+          $V_TSTAMP = Get-Date((Get-Date).toUniversalTime()) -Format "yyyyMMddHHmmss"
+          echo "V_TIMESTAMP=$V_TSTAMP" >> $env:GITHUB_ENV
 
       - name: Save artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: client-csharp.${{ env.VERSION }}.${{ github.run_id }}.zip
+          name: client-csharp.${{ env.V_VERSION }}.${{ env.V_TIMESTAMP }}.zip
           path: |
             *.zip
             *.nupkg
