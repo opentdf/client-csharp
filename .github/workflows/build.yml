@@ -21,7 +21,7 @@ jobs:
       VBUILDMODE: Release
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install Conan
         run: pip3 install conan==${{ env.CONAN_VER }} --force
@@ -49,7 +49,7 @@ jobs:
       - name: Save artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: client-csharp.${{ env.V_VERSION }}.${{ env.V_TIMESTAMP }}.zip
+          name: client-csharp-${{ env.V_VERSION }}-${{ env.V_TIMESTAMP }}.zip
           path: |
             *.zip
             *.nupkg
