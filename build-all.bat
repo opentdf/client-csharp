@@ -21,6 +21,7 @@ REM create the nuget package
 cmake --build . --target PACKAGE
 set builderrorlevel=%errorlevel%
 if %builderrorlevel% neq 0 goto fin
+move *.nupkg %PROJECT_DIR%
 
 REM for some reason the cmake install isn't working, so copy these to the install area now
 mkdir %PROJECT_DIR%%TDF_CSHARP_OUTPUT%\include\

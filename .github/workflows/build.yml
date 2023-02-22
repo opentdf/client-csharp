@@ -53,7 +53,7 @@ jobs:
           name: client-csharp-${{ env.V_VERSION }}-${{ env.V_TIMESTAMP }}
           path: |
             *.zip
-            build*/*.nupkg
+            *.nupkg
 
       - run: echo "This job's status is %job.status%."
 
