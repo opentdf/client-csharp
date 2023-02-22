@@ -54,7 +54,7 @@ link_libraries(
 )
 
 set(TDF_CSHARP_TARGET_DIR ${PROJECT_SOURCE_DIR}/../build/csharp-bindings)
-set(TDF_CSHARP_INTERFACE_DIR ${PROJECT_SOURCE_DIR}/../build/csharp-bindings/source)
+set(TDF_CSHARP_INTERFACE_DIR ${PROJECT_SOURCE_DIR}/../build/csharp-bindings/source/)
 
 swig_add_library(
   ${PROJECT_NAME}
@@ -68,7 +68,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ${CSHARP_MODULE_SUFFIX})
 endif()
 
-set(TDF_CSHARP_NATIVE_LIB ${PROJECT_SOURCE_DIR}/../build/lib/${VBUILDTYPEDIR}tdf-csharp${CSHARP_MODULE_SUFFIX})
+set(TDF_CSHARP_NATIVE_LIB ${PROJECT_SOURCE_DIR}/../build/lib/${VBUILDTYPEDIR}${PROJECT_NAME}${CSHARP_MODULE_SUFFIX})
 message(STATUS "TDF_CSHARP_NATIVE_LIB: ${TDF_CSHARP_NATIVE_LIB}")
 
 ############################################################
@@ -76,7 +76,7 @@ message(STATUS "TDF_CSHARP_NATIVE_LIB: ${TDF_CSHARP_NATIVE_LIB}")
 ############################################################
 
 # Create csharp distribution directory
-set(TDF_CSHARP_INSTALL_LOCATION  ${PROJECT_SOURCE_DIR}/../tdf-lib-csharp)
+set(TDF_CSHARP_INSTALL_LOCATION  ../../tdf-lib-csharp)
 install(DIRECTORY DESTINATION ${TDF_CSHARP_INSTALL_LOCATION})
 
 set(TDF_CSHARP_EXAMPLES ${PROJECT_SOURCE_DIR}/../examples)
@@ -87,7 +87,7 @@ install(FILES ${TDF_CSHARP_NATIVE_LIB} DESTINATION ${TDF_CSHARP_INSTALL_LOCATION
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
   # Also need matching interface .lib file to go with .dll file on windows
-  set(TDF_CSHARP_NATIVE_LIB_INTERFACE ${PROJECT_SOURCE_DIR}/../build/lib/${VBUILDTYPEDIR}tdf-csharp.lib)
+  set(TDF_CSHARP_NATIVE_LIB_INTERFACE ${PROJECT_SOURCE_DIR}/../build/lib/${VBUILDTYPEDIR}${PROJECT_NAME}.lib)
   message(STATUS "TDF_CSHARP_NATIVE_LIB_INTERFACE: ${TDF_CSHARP_NATIVE_LIB_INTERFACE}")
   install(FILES ${TDF_CSHARP_NATIVE_LIB_INTERFACE} DESTINATION ${TDF_CSHARP_INSTALL_LOCATION}/lib)
 endif()
@@ -109,3 +109,41 @@ CONFIGURE_FILE(${PROJECT_SOURCE_DIR}/../VERSION
 CONFIGURE_FILE(${PROJECT_SOURCE_DIR}/../LICENSE
         ${TDF_CSHARP_INSTALL_LOCATION})
 
+############################
+# Package for nuget
+# Ref: https://stackoverflow.com/questions/63175277/cpack-nuget-native-library
+##############################
+
+set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
+set(CPACK_PACKAGE_VENDOR "Virtru Corporation")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "CSharp package for OpenTDF client SDK")
+set(CPACK_PACKAGE_DESCRIPTION_FILE ${PROJECT_SOURCE_DIR}/../README.md)
+set(CPACK_PACKAGE_HOMEPAGE_URL "https://github.com/opentdf/client-csharp")
+
+#get version
+file(STRINGS ${PROJECT_SOURCE_DIR}/../VERSION PKG_VERSION)
+set(CPACK_PACKAGE_VERSION "${PKG_VERSION}")
+
+set(CPACK_GENERATOR NuGet)
+
+target_include_directories(${PROJECT_NAME}
+    PUBLIC
+        $<BUILD_INTERFACE:${TDF_CSHARP_INTERFACE_DIR}>
+        $<INSTALL_INTERFACE:include/>)
+
+set_target_properties(${PROJECT_NAME}
+    PROPERTIES PUBLIC_HEADER
+    $<BUILD_INTERFACE:${TDF_CSHARP_INTERFACE_DIR}>)
+
+install(
+    TARGETS ${PROJECT_NAME}
+    ARCHIVE  DESTINATION "lib"
+    LIBRARY  DESTINATION "bin"
+    RUNTIME  DESTINATION "bin"
+    PUBLIC_HEADER DESTINATION "include")
+
+# Not the most elegant way to do this, but it works
+install(FILES ${TDF_CSHARP_NATIVE_LIB_INTERFACE} DESTINATION "lib")
+install(FILES ${PROJECT_SOURCE_DIR}/../LICENSE DESTINATION ".")
+
+include(CPack)
