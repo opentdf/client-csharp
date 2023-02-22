@@ -34,6 +34,7 @@ jobs:
           cd ${{ github.workspace }}
           .\build-all.bat
 
+      # The windows-specific GITHUB_ENV set is not documented, and it's different than unix flavors.  Must use '$env:GITHUB_ENV'
       # Ref: https://stackoverflow.com/questions/61858388/how-do-i-set-an-enviroment-variable-in-github-action-on-a-windows-server
       - name: Get Version
         run: |
@@ -49,10 +50,10 @@ jobs:
       - name: Save artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: client-csharp-${{ env.V_VERSION }}-${{ env.V_TIMESTAMP }}.zip
+          name: client-csharp-${{ env.V_VERSION }}-${{ env.V_TIMESTAMP }}
           path: |
             *.zip
-            *.nupkg
+            build/*.nupkg
 
       - run: echo "This job's status is %job.status%."
 

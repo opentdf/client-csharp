@@ -68,7 +68,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ${CSHARP_MODULE_SUFFIX})
 endif()
 
-set(TDF_CSHARP_NATIVE_LIB ${PROJECT_SOURCE_DIR}/../build/lib/${VBUILDTYPEDIR}tdf-csharp${CSHARP_MODULE_SUFFIX})
+set(TDF_CSHARP_NATIVE_LIB ${PROJECT_SOURCE_DIR}/../build/lib/${VBUILDTYPEDIR}${PROJECT_NAME}${CSHARP_MODULE_SUFFIX})
 message(STATUS "TDF_CSHARP_NATIVE_LIB: ${TDF_CSHARP_NATIVE_LIB}")
 
 ############################################################
@@ -76,7 +76,7 @@ message(STATUS "TDF_CSHARP_NATIVE_LIB: ${TDF_CSHARP_NATIVE_LIB}")
 ############################################################
 
 # Create csharp distribution directory
-set(TDF_CSHARP_INSTALL_LOCATION  ../tdf-lib-csharp)
+set(TDF_CSHARP_INSTALL_LOCATION  ../../tdf-lib-csharp)
 install(DIRECTORY DESTINATION ${TDF_CSHARP_INSTALL_LOCATION})
 
 set(TDF_CSHARP_EXAMPLES ${PROJECT_SOURCE_DIR}/../examples)
@@ -87,7 +87,7 @@ install(FILES ${TDF_CSHARP_NATIVE_LIB} DESTINATION ${TDF_CSHARP_INSTALL_LOCATION
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
   # Also need matching interface .lib file to go with .dll file on windows
-  set(TDF_CSHARP_NATIVE_LIB_INTERFACE ${PROJECT_SOURCE_DIR}/../build/lib/${VBUILDTYPEDIR}tdf-csharp.lib)
+  set(TDF_CSHARP_NATIVE_LIB_INTERFACE ${PROJECT_SOURCE_DIR}/../build/lib/${VBUILDTYPEDIR}${PROJECT_NAME}.lib)
   message(STATUS "TDF_CSHARP_NATIVE_LIB_INTERFACE: ${TDF_CSHARP_NATIVE_LIB_INTERFACE}")
   install(FILES ${TDF_CSHARP_NATIVE_LIB_INTERFACE} DESTINATION ${TDF_CSHARP_INSTALL_LOCATION}/lib)
 endif()
@@ -141,5 +141,9 @@ install(
     LIBRARY  DESTINATION "bin"
     RUNTIME  DESTINATION "bin"
     PUBLIC_HEADER DESTINATION "include")
+
+# Not the most elegant way to do this, but it works
+install(FILES ${TDF_CSHARP_NATIVE_LIB_INTERFACE} DESTINATION "lib")
+install(FILES ${PROJECT_SOURCE_DIR}/../LICENSE DESTINATION ".")
 
 include(CPack)
