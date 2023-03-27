@@ -9,7 +9,7 @@ on:
     - cron: "0 7 * * 5"
 
 env:
-  CONAN_VER: 1.54.0
+  CONAN_VER: 1.59.0
 jobs:
 
   run-build-windows:
