@@ -1,4 +1,4 @@
-name: Run build on push
+name: Run build
 on:
   pull_request:
     types: [opened, synchronize, reopened]
