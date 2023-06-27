@@ -11,18 +11,20 @@
 
 %{
 #include "tdf_constants.h"
-#include "tdf_storage_type.h"
 #include "oidc_credentials.h"
 #include "tdf_assertion.h"
+#include "tdf_storage_type.h"
 #include "tdf_client_base.h"
 #include "tdf_client.h"
 #include "nanotdf_client.h"
+#include "tdf.h"
 %}
 
 %include "tdf_constants.h"
-%include "tdf_storage_type.h"
 %include "oidc_credentials.h"
 %include "tdf_assertion.h"
+%include "tdf_storage_type.h"
 %include "tdf_client_base.h"
 %include "tdf_client.h"
 %include "nanotdf_client.h"
+%include "tdf.h"
